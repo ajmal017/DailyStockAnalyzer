@@ -57,7 +57,12 @@ class IntersectBasedAnalysisClass:
             out_file.write("#### End handling SPY ####\n")
 
     def checkIfUpdate(self):
-        print self.stock.getDataDate()
+        day = datetime.today().day
+        lastEntryDate = self.stock.getDataDate()
+        if (day == lastEntryDate.day):
+            return True
+        else:
+            return False
 
     def analyze(self, i_analysisType):
         time.sleep(2)
@@ -232,17 +237,17 @@ class IntersectBasedAnalysisClass:
         self.stocks4Analysis = load_obj(i_symbol)
 
     def main(self):
-        dayOfWeek = datetime.today().weekday()
-        day = datetime.today().day
-        print day   
-        
-        if (dayOfWeek >= 0) and (dayOfWeek <= 4):
-            self.getSpyData()
-            self.checkIfUpdate()
-            #self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
-            #self.analyze(i_analysisType=ANALYSIS_TYPE)
-            #self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
-            #self.analyze(i_analysisType=ANALYSIS_TYPE)
+        while True:
+            dayOfWeek = datetime.today().weekday()
+            hour = datetime.today().hour
+            minute = datetime.today().minute
+            if (dayOfWeek >= 1) and (dayOfWeek <= 5) and (hour == 13) and (minute == 0):
+                self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
+                self.analyze(i_analysisType=ANALYSIS_TYPE)
+                self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
+                self.analyze(i_analysisType=ANALYSIS_TYPE)
+            else:
+                print "waiting..."
 
 # ----------------- Main program -------------------
 #os.system("taskkill /im python.exe")
