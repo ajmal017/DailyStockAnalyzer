@@ -57,12 +57,13 @@ class IntersectBasedAnalysisClass:
             out_file.write("#### End handling SPY ####\n")
 
     def checkIfUpdate(self):
-        day = datetime.today().day
+        # day = datetime.today().day
         lastEntryDate = self.stock.getDataDate()
-        if (day == lastEntryDate.day):
-            return True
-        else:
-            return False
+        out_file.write("Last entry's day: %d\n" % (lastEntryDate.day))
+        # if (day == lastEntryDate.day):
+        #     return True
+        # else:
+        #     return False
 
     def analyze(self, i_analysisType):
         time.sleep(2)
@@ -242,6 +243,7 @@ class IntersectBasedAnalysisClass:
             hour = datetime.today().hour
             minute = datetime.today().minute
             if (dayOfWeek >= 1) and (dayOfWeek <= 5) and (hour == 13) and (minute == 0):
+                self.checkIfUpdate()
                 self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
                 self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
