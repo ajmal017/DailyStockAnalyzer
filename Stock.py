@@ -180,6 +180,9 @@ class StockClass:
         self.m_features = pd.DataFrame(pd.np.empty((len(self.m_data[i_destDictKey]['data']['d']['Date']), len(featuresTblColNames))) * 0)
         self.m_features.columns = featuresTblColNames
 
+    def getDataDate(self, i_freq='d', i_destDictKey='SPY'):
+        return self.m_data[i_destDictKey]['data'][i_freq]['Date'][0]
+
     def plotlyData(self, i_destDictKey, i_freq='d', i_debug=False, i_out=None):
         l_data = self.m_data[i_destDictKey]['data'][i_freq]
         l_data['Date_tmp'] = l_data['Date'].apply(lambda d: mdates.date2num(d.to_pydatetime()))

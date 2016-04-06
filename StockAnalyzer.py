@@ -45,6 +45,20 @@ class IntersectBasedAnalysisClass:
                 # out_file.write(i_listOrigin)
                 # out_file.write(self.stocksList)
 
+    def getSpyData(self):
+        if EXTENDED_DEBUG:
+            print "#### Start handling SPY ####"
+            out_file.write("#### Start handling SPY ####\n")
+        self.stock.getData(i_symbol='SPY', i_destDictKey='SPY')
+        self.stock.getMovementType(i_destDictKey='SPY')
+        self.stock.reversalPointsDetector(i_destDictKey='SPY')
+        if EXTENDED_DEBUG:
+            print "#### End handling SPY ####"
+            out_file.write("#### End handling SPY ####\n")
+
+    def checkIfUpdate(self):
+        print self.stock.getDataDate()
+
     def analyze(self, i_analysisType):
         time.sleep(2)
         if EXTENDED_DEBUG:
@@ -218,10 +232,17 @@ class IntersectBasedAnalysisClass:
         self.stocks4Analysis = load_obj(i_symbol)
 
     def main(self):
-        self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
-        self.analyze(i_analysisType=ANALYSIS_TYPE)
-        self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
-        self.analyze(i_analysisType=ANALYSIS_TYPE)
+        dayOfWeek = datetime.today().weekday()
+        day = datetime.today().day
+        print day   
+        
+        if (dayOfWeek >= 0) and (dayOfWeek <= 4):
+            self.getSpyData()
+            self.checkIfUpdate()
+            #self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
+            #self.analyze(i_analysisType=ANALYSIS_TYPE)
+            #self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
+            #self.analyze(i_analysisType=ANALYSIS_TYPE)
 
 # ----------------- Main program -------------------
 #os.system("taskkill /im python.exe")
