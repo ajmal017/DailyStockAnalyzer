@@ -14,6 +14,7 @@ import pandas as pd
 import pandas_datareader.data as web
 from numpy import *
 import numpy as np
+
 import matplotlib
 import calendar
 # from scipy.signal import argrelextrema
@@ -23,7 +24,7 @@ from plotly.tools import FigureFactory as FF
 from plotly.graph_objs import *
 plotly.offline.init_notebook_mode()
 
-matplotlib.style.use('ggplot')
+plt.style.use('ggplot')
 
 # defines
 MIN_VECTOR_LEN = 200

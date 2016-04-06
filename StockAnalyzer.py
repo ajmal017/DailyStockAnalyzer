@@ -1,5 +1,3 @@
-#!C:\Python27\python.exe
-
 from Stock import *
 from Utils import *
 import time
@@ -105,20 +103,20 @@ class IntersectBasedAnalysisClass:
             # stock.plotData(i_destDictKey='symbol', i_debug=True)
             # stock.plotlyData(i_destDictKey='symbol')
 
-            l_conditions = [self.stock.m_data['symbol']['analysis']['d']['intersectInd'],
-                            self.stock.m_data['symbol']['analysis']['d']['rs'] >= RS_THS,
+            l_conditions = [self.stock.m_data['symbol']['analysis']['d']['intersectInd'],               # condition 0
+                            self.stock.m_data['symbol']['analysis']['d']['rs'] >= RS_THS,               # condition 1
                             ((self.stock.m_data['symbol']['analysis']['d']['trendType'] == 2) and
                              (self.stock.m_data['symbol']['analysis']['w']['moveType'] == 1) and
-                             (self.stock.m_data['symbol']['analysis']['m']['moveType'] == 1)),
+                             (self.stock.m_data['symbol']['analysis']['m']['moveType'] == 1)),          # condition 2
                             ((self.stock.m_data['symbol']['analysis']['d']['trendType'] == 1) and
                              (self.stock.m_data['symbol']['analysis']['w']['moveType'] == -1) and
-                             (self.stock.m_data['symbol']['analysis']['m']['moveType'] == -1)),
-                            self.stock.m_data['symbol']['analysis']['d']['proximity2TrendReversal'],
+                             (self.stock.m_data['symbol']['analysis']['m']['moveType'] == -1)),         # condition 3
+                            self.stock.m_data['symbol']['analysis']['d']['proximity2TrendReversal'],    # condition 4
                             ((self.stock.m_data['symbol']['analysis']['d']['lastWeeklyHigh'] and
                              self.stock.m_data['symbol']['analysis']['d']['trendType'] == 2) or
                              (self.stock.m_data['symbol']['analysis']['d']['lastWeeklyLow'] and
-                             self.stock.m_data['symbol']['analysis']['d']['trendType'] == 1)),
-                            (self.stock.m_data['symbol']['analysis']['d']['riskRatio'] > 0.5)
+                             self.stock.m_data['symbol']['analysis']['d']['trendType'] == 1)),          # condition 5
+                            (self.stock.m_data['symbol']['analysis']['d']['riskRatio'] > 0.5)           # condition 6
                             ]
 
             if DEBUG_CONDITIONS:
@@ -146,17 +144,28 @@ class IntersectBasedAnalysisClass:
                                                                                  l_conditions[6],
                                                                                  sum(l_conditions),
                                                                                  len(l_conditions)))
-            # if l_conditions[0] and l_conditions[1] and \
-            #    (l_conditions[2] or l_conditions[3]) and \
-            #    l_conditions[4] and \
-            #    l_conditions[5] and l_conditions[6]:
+            if l_conditions[0] and l_conditions[1] and \
+               (l_conditions[2] or l_conditions[3]):
+                # save_obj(self.stock, symbolName)
+                self.stocks4Analysis.append(symbolName)
+                save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
+                out_file.write("*[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                                                                                        l_conditions[0],
+                                                                                        l_conditions[1],
+                                                                                        l_conditions[2],
+                                                                                        l_conditions[3],
+                                                                                        l_conditions[4],
+                                                                                        l_conditions[5],
+                                                                                        l_conditions[6],
+                                                                                        sum(l_conditions),
+                                                                                        len(l_conditions)))
             if l_conditions[0] and l_conditions[1] and \
                (l_conditions[2] or l_conditions[3]) and \
                l_conditions[4]:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("*[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                out_file.write("**[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                         l_conditions[0],
                                                                                         l_conditions[1],
                                                                                         l_conditions[2],
@@ -173,7 +182,7 @@ class IntersectBasedAnalysisClass:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("**[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                out_file.write("***[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                          l_conditions[0],
                                                                                          l_conditions[1],
                                                                                          l_conditions[2],
@@ -190,7 +199,7 @@ class IntersectBasedAnalysisClass:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("***[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                out_file.write("****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                           l_conditions[0],
                                                                                           l_conditions[1],
                                                                                           l_conditions[2],
