@@ -249,7 +249,8 @@ class IntersectBasedAnalysisClass:
                 self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
             else:
-                print "waiting..."
+                print "sleep 60s - waiting..."
+                time.sleep(60);
 
 # ----------------- Main program -------------------
 #os.system("taskkill /im python.exe")
