@@ -59,7 +59,8 @@ class IntersectBasedAnalysisClass:
     def checkIfUpdate(self):
         # day = datetime.today().day
         lastEntryDate = self.stock.getDataDate()
-        out_file.write("Last entry's day: %d\n" % (lastEntryDate.day))
+        print lastEntryDate
+        out_file.write("Last entry's day: %d/%d\n" % (lastEntryDate.month, lastEntryDate.day))
         # if (day == lastEntryDate.day):
         #     return True
         # else:
@@ -242,14 +243,15 @@ class IntersectBasedAnalysisClass:
             dayOfWeek = datetime.today().weekday()
             hour = datetime.today().hour
             minute = datetime.today().minute
-            if (dayOfWeek >= 1) and (dayOfWeek <= 5) and (hour == 13) and (minute == 0):
+            if (dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00):
+                self.getSpyData()
                 self.checkIfUpdate()
                 self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
                 self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
             else:
-                print "sleep 60s - waiting..."
+                print 'DaylOfWeek: ',dayOfWeek, ' hour: ', hour+3, ' minute: ', minute, 'sleep 60s - waiting...'
                 time.sleep(60);
 
 # ----------------- Main program -------------------

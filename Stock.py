@@ -181,7 +181,7 @@ class StockClass:
         self.m_features.columns = featuresTblColNames
 
     def getDataDate(self, i_freq='d', i_destDictKey='SPY'):
-        return self.m_data[i_destDictKey]['data'][i_freq]['Date'][0]
+        return self.m_data[i_destDictKey]['data'][i_freq]['Date'][len(self.m_data[i_destDictKey]['data'][i_freq]['Date'])-1]
 
     def plotlyData(self, i_destDictKey, i_freq='d', i_debug=False, i_out=None):
         l_data = self.m_data[i_destDictKey]['data'][i_freq]
