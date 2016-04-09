@@ -9,9 +9,9 @@ import os
 ANALYSIS_TYPE = 'short'  # 'long'
 RS_THS = 0.7
 now = datetime.now()
-out_file = open('output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt', "w")
 EXTENDED_DEBUG = False
 DEBUG_CONDITIONS = True
+out_file = ''
 
 class IntersectBasedAnalysisClass:
 
@@ -259,12 +259,14 @@ class IntersectBasedAnalysisClass:
             hour = datetime.today().hour
             minute = datetime.today().minute
             if (dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00):
+                out_file = open('output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt', "w")
                 self.getSpyData()
                 self.checkIfUpdate()
                 self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
                 self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
+                out_file.close()
             else:
                 print 'DaylOfWeek: ', dayOfWeek, ' hour: ', hour+3, ' minute: ', minute, 'sleep 60s - waiting...'
                 time.sleep(60)
@@ -276,4 +278,3 @@ class IntersectBasedAnalysisClass:
 isBaseAnalysis = IntersectBasedAnalysisClass()
 isBaseAnalysis.main()
 # isBaseAnalysis.restoreSymbol('stocks4Analysis')
-out_file.close()
