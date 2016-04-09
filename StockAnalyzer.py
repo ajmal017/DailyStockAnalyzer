@@ -165,8 +165,8 @@ class IntersectBasedAnalysisClass:
                                                                                  l_conditions[6],
                                                                                  sum(l_conditions),
                                                                                  len(l_conditions)))
-            if l_conditions[0] and l_conditions[1] and \
-               (l_conditions[2] or l_conditions[3]):
+            if (l_conditions[2] or l_conditions[3]) and \
+               l_conditions[6] and l_conditions[4]:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
@@ -181,29 +181,11 @@ class IntersectBasedAnalysisClass:
                                                                                         sum(l_conditions),
                                                                                         len(l_conditions)))
             if l_conditions[0] and l_conditions[1] and \
-               (l_conditions[2] or l_conditions[3]) and \
-               l_conditions[4]:
+               (l_conditions[2] or l_conditions[3]):
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
                 out_file.write("**[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
-                                                                                        l_conditions[0],
-                                                                                        l_conditions[1],
-                                                                                        l_conditions[2],
-                                                                                        l_conditions[3],
-                                                                                        l_conditions[4],
-                                                                                        l_conditions[5],
-                                                                                        l_conditions[6],
-                                                                                        sum(l_conditions),
-                                                                                        len(l_conditions)))
-            if l_conditions[0] and l_conditions[1] and \
-               (l_conditions[2] or l_conditions[3]) and \
-               l_conditions[4] and \
-               l_conditions[5]:
-                # save_obj(self.stock, symbolName)
-                self.stocks4Analysis.append(symbolName)
-                save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("***[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                          l_conditions[0],
                                                                                          l_conditions[1],
                                                                                          l_conditions[2],
@@ -215,12 +197,11 @@ class IntersectBasedAnalysisClass:
                                                                                          len(l_conditions)))
             if l_conditions[0] and l_conditions[1] and \
                (l_conditions[2] or l_conditions[3]) and \
-               l_conditions[4] and \
-               l_conditions[5] and l_conditions[6]:
+               l_conditions[4]:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                out_file.write("***[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                           l_conditions[0],
                                                                                           l_conditions[1],
                                                                                           l_conditions[2],
@@ -230,6 +211,40 @@ class IntersectBasedAnalysisClass:
                                                                                           l_conditions[6],
                                                                                           sum(l_conditions),
                                                                                           len(l_conditions)))
+            if l_conditions[0] and l_conditions[1] and \
+               (l_conditions[2] or l_conditions[3]) and \
+               l_conditions[4] and \
+               l_conditions[5]:
+                # save_obj(self.stock, symbolName)
+                self.stocks4Analysis.append(symbolName)
+                save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
+                out_file.write("****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                                                                                           l_conditions[0],
+                                                                                           l_conditions[1],
+                                                                                           l_conditions[2],
+                                                                                           l_conditions[3],
+                                                                                           l_conditions[4],
+                                                                                           l_conditions[5],
+                                                                                           l_conditions[6],
+                                                                                           sum(l_conditions),
+                                                                                           len(l_conditions)))
+            if l_conditions[0] and l_conditions[1] and \
+               (l_conditions[2] or l_conditions[3]) and \
+               l_conditions[4] and \
+               l_conditions[5] and l_conditions[6]:
+                # save_obj(self.stock, symbolName)
+                self.stocks4Analysis.append(symbolName)
+                save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
+                out_file.write("*****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                                                                                            l_conditions[0],
+                                                                                            l_conditions[1],
+                                                                                            l_conditions[2],
+                                                                                            l_conditions[3],
+                                                                                            l_conditions[4],
+                                                                                            l_conditions[5],
+                                                                                            l_conditions[6],
+                                                                                            sum(l_conditions),
+                                                                                            len(l_conditions)))
 
             if EXTENDED_DEBUG:
                 print '#### End handling [', symbolName, '] ####'
@@ -251,8 +266,8 @@ class IntersectBasedAnalysisClass:
                 self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
             else:
-                print 'DaylOfWeek: ',dayOfWeek, ' hour: ', hour+3, ' minute: ', minute, 'sleep 60s - waiting...'
-                time.sleep(60);
+                print 'DaylOfWeek: ', dayOfWeek, ' hour: ', hour+3, ' minute: ', minute, 'sleep 60s - waiting...'
+                time.sleep(60)
 
 # ----------------- Main program -------------------
 #os.system("taskkill /im python.exe")
