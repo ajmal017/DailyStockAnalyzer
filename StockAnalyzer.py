@@ -11,7 +11,6 @@ RS_THS = 0.7
 now = datetime.now()
 EXTENDED_DEBUG = False
 DEBUG_CONDITIONS = True
-out_file = ''
 
 class IntersectBasedAnalysisClass:
 
@@ -20,6 +19,7 @@ class IntersectBasedAnalysisClass:
     stock = StockClass()
     stocks4Analysis = []
     erroneousStocks = []
+    out_file = 0
 
     def getStocksList(self, i_update=False, i_listOrigin='NASDAQ', i_debug=False):
         if (i_update):
@@ -48,7 +48,7 @@ class IntersectBasedAnalysisClass:
     def getSpyData(self):
         if EXTENDED_DEBUG:
             print "#### Start handling SPY ####"
-            out_file.write("#### Start handling SPY ####\n")
+            self.out_file.write("#### Start handling SPY ####\n")
         self.stock.getData(i_symbol='SPY', i_destDictKey='SPY')
         self.stock.getMovementType(i_destDictKey='SPY')
         self.stock.reversalPointsDetector(i_destDictKey='SPY')
@@ -60,7 +60,7 @@ class IntersectBasedAnalysisClass:
         # day = datetime.today().day
         lastEntryDate = self.stock.getDataDate()
         print lastEntryDate
-        out_file.write("Last entry's day: %d/%d\n" % (lastEntryDate.month, lastEntryDate.day))
+        self.out_file.write("Last entry's day: %d/%d\n" % (lastEntryDate.month, lastEntryDate.day))
         # if (day == lastEntryDate.day):
         #     return True
         # else:
@@ -70,13 +70,13 @@ class IntersectBasedAnalysisClass:
         time.sleep(2)
         if EXTENDED_DEBUG:
             print "#### Start handling SPY ####"
-            out_file.write("#### Start handling SPY ####\n")
+            self.out_file.write("#### Start handling SPY ####\n")
         self.stock.getData(i_symbol='SPY', i_destDictKey='SPY')
         self.stock.getMovementType(i_destDictKey='SPY')
         self.stock.reversalPointsDetector(i_destDictKey='SPY')
         if EXTENDED_DEBUG:
             print "#### End handling SPY ####"
-            out_file.write("#### End handling SPY ####\n")
+            self.out_file.write("#### End handling SPY ####\n")
         idx = 0
 
         for symbolName in self.stocksList:
@@ -87,10 +87,10 @@ class IntersectBasedAnalysisClass:
             idx = idx + 1
             if EXTENDED_DEBUG:
                 print '#### [', idx, '/', self.numStocksInList, ']: Start handling [', symbolName, '] ####'
-                out_file.write("#### [ %d / %d ]: Start handling [ %s ] ####\n" % (idx, self.numStocksInList, symbolName))
+                self.out_file.write("#### [ %d / %d ]: Start handling [ %s ] ####\n" % (idx, self.numStocksInList, symbolName))
             else:
                 print '[', idx, '/', self.numStocksInList, ']'
-                out_file.write("[ %d / %d ]\n" % (idx, self.numStocksInList))
+                self.out_file.write("[ %d / %d ]\n" % (idx, self.numStocksInList))
             try:
                 self.stock.getData(i_symbol=symbolName, i_destDictKey='symbol')
             except:
@@ -98,7 +98,7 @@ class IntersectBasedAnalysisClass:
                 save_obj(self.erroneousStocks, 'erroneousStocks_' + ANALYSIS_TYPE)
                 if EXTENDED_DEBUG:
                     print '!!!! GetData ERROR !!!!'
-                    out_file.write('!!!! GetData ERROR !!!!\n')
+                    self.out_file.write('!!!! GetData ERROR !!!!\n')
                 continue
 
             # self.stock.findLocalMinMax(i_destDictKey='symbol')
@@ -141,22 +141,22 @@ class IntersectBasedAnalysisClass:
                             ]
 
             if DEBUG_CONDITIONS:
-                out_file.write("Condition 1: IntersectInd=%d\n" % self.stock.m_data['symbol']['analysis']['d']['intersectInd'])
-                out_file.write("Condition 2: RS=%f\n" % self.stock.m_data['symbol']['analysis']['d']['rs'])
-                out_file.write("Condition 3: d_trendType=%d, w_moveType=%d, m_moveType=%d\n" %
+                self.out_file.write("Condition 1: IntersectInd=%d\n" % self.stock.m_data['symbol']['analysis']['d']['intersectInd'])
+                self.out_file.write("Condition 2: RS=%f\n" % self.stock.m_data['symbol']['analysis']['d']['rs'])
+                self.out_file.write("Condition 3: d_trendType=%d, w_moveType=%d, m_moveType=%d\n" %
                                (self.stock.m_data['symbol']['analysis']['d']['trendType'],
                                 self.stock.m_data['symbol']['analysis']['w']['moveType'],
                                 self.stock.m_data['symbol']['analysis']['m']['moveType']))
-                out_file.write("Condition 4: proximity=%d\n" % self.stock.m_data['symbol']['analysis']['d']['proximity2TrendReversal'])
-                out_file.write("Condition 5: lastWHigh=%f, lastWLow=%f, trendType=%d\n" %
+                self.out_file.write("Condition 4: proximity=%d\n" % self.stock.m_data['symbol']['analysis']['d']['proximity2TrendReversal'])
+                self.out_file.write("Condition 5: lastWHigh=%f, lastWLow=%f, trendType=%d\n" %
                                (self.stock.m_data['symbol']['analysis']['d']['lastWeeklyHigh'],
                                 self.stock.m_data['symbol']['analysis']['d']['lastWeeklyLow'],
                                 self.stock.m_data['symbol']['analysis']['d']['trendType']))
-                out_file.write("Condition 6: riskR=%f\n" % self.stock.m_data['symbol']['analysis']['d']['riskRatio'])
+                self.out_file.write("Condition 6: riskR=%f\n" % self.stock.m_data['symbol']['analysis']['d']['riskRatio'])
 
             if EXTENDED_DEBUG:
                 print 'Conditions: ', l_conditions
-                out_file.write("Conditions: %d %d %d %d %d %d %d-> [%d/%d]\n" % (l_conditions[0],
+                self.out_file.write("Conditions: %d %d %d %d %d %d %d-> [%d/%d]\n" % (l_conditions[0],
                                                                                  l_conditions[1],
                                                                                  l_conditions[2],
                                                                                  l_conditions[3],
@@ -170,7 +170,7 @@ class IntersectBasedAnalysisClass:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("*[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                self.out_file.write("*[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                         l_conditions[0],
                                                                                         l_conditions[1],
                                                                                         l_conditions[2],
@@ -185,7 +185,7 @@ class IntersectBasedAnalysisClass:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("**[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                self.out_file.write("**[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                          l_conditions[0],
                                                                                          l_conditions[1],
                                                                                          l_conditions[2],
@@ -201,7 +201,7 @@ class IntersectBasedAnalysisClass:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("***[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                self.out_file.write("***[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                           l_conditions[0],
                                                                                           l_conditions[1],
                                                                                           l_conditions[2],
@@ -218,7 +218,7 @@ class IntersectBasedAnalysisClass:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                self.out_file.write("****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                            l_conditions[0],
                                                                                            l_conditions[1],
                                                                                            l_conditions[2],
@@ -235,7 +235,7 @@ class IntersectBasedAnalysisClass:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
                 save_obj(self.stocks4Analysis, 'stocks4Analysis_'+ANALYSIS_TYPE)
-                out_file.write("*****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
+                self.out_file.write("*****[%s] Conditions: %d %d %d %d %d %d %d -> [%d/%d]\n" % (symbolName,
                                                                                             l_conditions[0],
                                                                                             l_conditions[1],
                                                                                             l_conditions[2],
@@ -248,7 +248,7 @@ class IntersectBasedAnalysisClass:
 
             if EXTENDED_DEBUG:
                 print '#### End handling [', symbolName, '] ####'
-                out_file.write("#### End handling [ %s ] ####\n" % symbolName)
+                self.out_file.write("#### End handling [ %s ] ####\n" % symbolName)
 
     def restoreSymbol(self, i_symbol):
         self.stocks4Analysis = load_obj(i_symbol)
@@ -259,14 +259,15 @@ class IntersectBasedAnalysisClass:
             hour = datetime.today().hour
             minute = datetime.today().minute
             if (dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00):
-                out_file = open('output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt', "w")
+            # if (1):
+                self.out_file = open('output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt', "w")
                 self.getSpyData()
                 self.checkIfUpdate()
                 self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
                 self.getStocksList(i_listOrigin='OTHERS', i_debug=True)
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
-                out_file.close()
+                self.out_file.close()
             else:
                 print 'DaylOfWeek: ', dayOfWeek, ' hour: ', hour+3, ' minute: ', minute, 'sleep 60s - waiting...'
                 time.sleep(60)
