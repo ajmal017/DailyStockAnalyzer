@@ -137,7 +137,11 @@ class IntersectBasedAnalysisClass:
                              self.stock.m_data['symbol']['analysis']['d']['trendType'] == 2) or
                              (self.stock.m_data['symbol']['analysis']['d']['lastWeeklyLow'] and
                              self.stock.m_data['symbol']['analysis']['d']['trendType'] == 1)),          # condition 5
-                            (self.stock.m_data['symbol']['analysis']['d']['riskRatio'] > 0.5)           # condition 6
+                            (self.stock.m_data['symbol']['analysis']['d']['riskRatio'] > 0.5),          # condition 6
+                            ((self.stock.m_data['symbol']['analysis']['d']['trendType'] == 2) and
+                             (self.stock.m_data['symbol']['analysis']['w']['moveType'] == 1)),          # condition 7
+                            ((self.stock.m_data['symbol']['analysis']['d']['trendType'] == 1) and
+                             (self.stock.m_data['symbol']['analysis']['w']['moveType'] == -1))          # condition 8
                             ]
 
             if DEBUG_CONDITIONS:
@@ -165,7 +169,7 @@ class IntersectBasedAnalysisClass:
                                                                                  l_conditions[6],
                                                                                  sum(l_conditions),
                                                                                  len(l_conditions)))
-            if (l_conditions[2] or l_conditions[3]) and \
+            if (l_conditions[7] or l_conditions[8]) and \
                l_conditions[6] and l_conditions[4]:
                 # save_obj(self.stock, symbolName)
                 self.stocks4Analysis.append(symbolName)
