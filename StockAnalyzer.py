@@ -264,7 +264,10 @@ class IntersectBasedAnalysisClass:
             minute = datetime.today().minute
             if (dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00):
             # if (1):
-                self.out_file = open('output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt', "w")
+                filename = 'output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt'
+                print 'filename: ', filename
+                self.out_file = open(filename, "w")
+                self.out_file.write("filename: %s\n" % (filename))
                 self.getSpyData()
                 self.checkIfUpdate()
                 self.getStocksList(i_listOrigin='NASDAQ', i_debug=True)
