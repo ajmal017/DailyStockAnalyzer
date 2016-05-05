@@ -258,12 +258,12 @@ class IntersectBasedAnalysisClass:
         self.stocks4Analysis = load_obj(i_symbol)
 
     def main(self):
-        # while True:
+        while True:
             dayOfWeek = datetime.today().weekday()
             hour = datetime.today().hour
             minute = datetime.today().minute
-            # if (dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00):
-            if (1):
+            if (dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00):
+            # if (1):
                 filename = 'output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt'
                 print 'filename: ', filename
                 self.out_file = open(filename, "w")
