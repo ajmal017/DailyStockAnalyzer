@@ -8,6 +8,8 @@ import os
 
 ANALYSIS_TYPE = 'short'  # 'long'
 RS_THS = 0.7
+TREND_STRENGTH_THS = 0.5  # 0.0 for debug only
+ANALYSIS_THS = 0  # 0 used for debug only
 now = datetime.now()
 EXTENDED_DEBUG = False
 DEBUG_CONDITIONS = True
@@ -141,7 +143,8 @@ class IntersectBasedAnalysisClass:
                             ((self.stock.m_data['symbol']['analysis']['d']['trendType'] == 2) and
                              (self.stock.m_data['symbol']['analysis']['w']['moveType'] == 1)),          # condition 7
                             ((self.stock.m_data['symbol']['analysis']['d']['trendType'] == 1) and
-                             (self.stock.m_data['symbol']['analysis']['w']['moveType'] == -1))          # condition 8
+                             (self.stock.m_data['symbol']['analysis']['w']['moveType'] == -1)),          # condition 8
+                            self.stock.m_data['symbol']['analysis']['d']['trendStrength'] > TREND_STRENGTH_THS  # condition 9
                             ]
 
             if DEBUG_CONDITIONS:
