@@ -5,6 +5,7 @@ import gc
 import thread
 import random
 import os
+import sys
 
 ANALYSIS_TYPE = 'short'  # 'long'
 RS_THS = 0.7
@@ -260,13 +261,13 @@ class IntersectBasedAnalysisClass:
     def restoreSymbol(self, i_symbol):
         self.stocks4Analysis = load_obj(i_symbol)
 
-    def main(self):
+    def main(self, forceRun = False):
         while True:
             dayOfWeek = datetime.today().weekday()
             hour = datetime.today().hour
             minute = datetime.today().minute
-            if (dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00):
-            # if (1):
+            if ((dayOfWeek >= 1) and (dayOfWeek <= 5) and ((hour+3) == 14) and (minute == 00)) or \
+                (forceRun == True):
                 filename = 'output_'+str(now.day)+'_'+str(now.month)+'_'+str(now.year)+'_'+str(now.hour)+'.txt'
                 print 'filename: ', filename
                 self.out_file = open(filename, "w")
@@ -279,14 +280,22 @@ class IntersectBasedAnalysisClass:
                 self.analyze(i_analysisType=ANALYSIS_TYPE)
                 self.out_file.close()
                 print 'filename: ', filename
+                if (forceRun):
+                    break
             else:
                 print 'DaylOfWeek: ', dayOfWeek, ' hour: ', hour+3, ' minute: ', minute, 'sleep 60s - waiting...'
                 time.sleep(60)
 
+def main(forceRun = False):
+    isBaseAnalysis = IntersectBasedAnalysisClass()
+    isBaseAnalysis.main(forceRun)    
+
 # ----------------- Main program -------------------
-#os.system("taskkill /im python.exe")
-#os.system("taskkill /im python.exe")
-#os.system("taskkill /im python.exe")
-isBaseAnalysis = IntersectBasedAnalysisClass()
-isBaseAnalysis.main()
+
+if __name__ == "__main__":
+    # sys.argv[1] --> whether to force running now !
+    if len(sys.argv) > 1:
+        main(sys.argv[1] == "True")
+    else:
+        main()
 # isBaseAnalysis.restoreSymbol('stocks4Analysis')
