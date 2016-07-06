@@ -641,6 +641,7 @@ class StockClass:
         s2 = sqrt(v2)
 
         correlation = cov / (s1 * s2)
+        
         self.m_data[i_ref]['analysis'][i_freq]['rs'] = correlation
 
     # def ema(self,window):
